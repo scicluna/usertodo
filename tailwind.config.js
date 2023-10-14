@@ -4,6 +4,7 @@ module.exports = {
     './**/*.cfm',
     './**/*.cfm',
     './**/*.cfml',
+    './**/**/*.css'
   ],
-  // ...
+  mode: 'jit',
 }

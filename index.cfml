@@ -8,10 +8,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Template</title>
         <cfoutput>
-            <link href="#GetDirectoryFromPath(CGI.SCRIPT_NAME)#/ostyles.css" rel="stylesheet" />
+            <link href="#GetDirectoryFromPath(CGI.SCRIPT_NAME)#/assets/css/ostyles.css" rel="stylesheet" />
         </cfoutput>
     </head>
-    <body class="h-[100dvh] w-[100dvw] bg-blue-500">
-        <h1><cfoutput>#GetDirectoryFromPath(CGI.SCRIPT_NAME)#</cfoutput></h1>
+    <body class="h-[100dvh] w-[100dvw] bg-slate-100">
+        <h1><cfoutput>#GetDirectoryFromPath(CGI.SCRIPT_NAME)#sdsds</cfoutput></h1>
     </body>
 </html>

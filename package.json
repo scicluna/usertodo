@@ -4,14 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "browser-sync start --proxy \"localhost:8500/weatherapp/index.cfm\" --files \"*.cfm, *.cfc, *.css\"",
-    "build": "tailwindcss build -i styles.css -o ostyles.css"
+    "bsync": "browser-sync start --proxy \"localhost:8500\" --files \"*.cfm, *.cfml, *.cfc\" --no-notify --no-open",
+    "twbuild-watch": "postcss assets/css/tailwind.css -o assets/css/ostyles.css --watch",
+    "reload-on-css": "chokidar 'assets/css/ostyles.css' -c 'browser-sync reload'",
+    "dev": "npm-run-all -p bsync twbuild-watch reload-on-css"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "browser-sync": "^2.29.3"
+    "browser-sync": "^2.29.3",
+    "chokidar-cli": "^3.0.0",
+    "npm-run-all": "^4.1.5"
   },
   "dependencies": {
     "autoprefixer": "^10.4.16",
