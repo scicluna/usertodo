@@ -3,6 +3,7 @@ module.exports = {
   content: [
     './**/*.cfm',
     './**/*.cfm',
+    './**/*.cfml',
   ],
   // ...
 }
