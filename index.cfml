@@ -12,6 +12,6 @@
         </cfoutput>
     </head>
     <body class="h-[100dvh] w-[100dvw] bg-slate-100">
-        <h1><cfoutput>#GetDirectoryFromPath(CGI.SCRIPT_NAME)#sdsds</cfoutput></h1>
+        <h1>test</h1>
     </body>
 </html>
