@@ -1,4 +1,5 @@
 <cfscript>
+   
 </cfscript>
 
 <html lang="en">
@@ -11,7 +12,7 @@
             <link href="#GetDirectoryFromPath(CGI.SCRIPT_NAME)#/assets/css/ostyles.css" rel="stylesheet" />
         </cfoutput>
     </head>
-    <body class="h-[100dvh] w-[100dvw] bg-slate-100">
-        <h1>test</h1>
+    <body class="h-[100dvh] w-[100dvw] bg-white">
+        <h1>tesdsdt</h1>
     </body>
 </html>
