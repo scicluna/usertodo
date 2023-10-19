@@ -1,0 +1,10 @@
+all cftags server
+frontend vite
+
+theroretical 'users'
+each 'user' has a name, email, and role
+each 'role' has 'users'
+
+each 'user' has a todo list
+crud for todo list/user/roles
+
