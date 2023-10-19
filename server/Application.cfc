@@ -4,8 +4,9 @@
     <cfset THIS.ApplicationTimeout = CreateTimeSpan(0,1,0,0)>
     <cfset THIS.SessionManagement = true>
     <cfset THIS.SessionTimeout = CreateTimeSpan(0,0,30,0)>
+    <cfset THIS.ormEnabled = true>
 
-    <!---  Handle CORS and Preflight Requests --->
+    <!--- Handle CORS and Preflight Requests --->
     <cffunction name="onRequestStart">
         <!--- Set CORS headers --->
         <cfheader name="Access-Control-Allow-Origin" value="http://localhost:3000">
