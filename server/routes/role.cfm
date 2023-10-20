@@ -12,12 +12,10 @@
             <!--- If an ID is provided, get a single role; else, get all roles --->
             <cfif structKeyExists(url, "role_id")>
                 <cfset roleQuery = roleController.getRoleById(url.role_id)>
-                <cfset roleData = utilLibrary.queryToArray(roleQuery)>
             <cfelse>
                 <cfset roleQuery = roleController.getAllRoles()>
-                <cfset roleData = utilLibrary.queryToArray(roleQuery)>
             </cfif>
-            <cfoutput>#serializeJson({success: true, data: roleData})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, data: roleQuery})#</cfoutput>
         </cfcase>
 
         <!--- POST: Create a new role --->

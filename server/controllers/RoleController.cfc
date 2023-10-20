@@ -1,10 +1,10 @@
 <cfcomponent >
-    <cffunction name="getAllRoles" access="public" returntype="query">
+    <cffunction name="getAllRoles" access="public" returntype="array">
             <cfset var roles = entityLoad("Role")>
             <cfreturn roles>
     </cffunction>
 
-    <cffunction name="getRoleById" access="public" returntype="query">
+    <cffunction name="getRoleById" access="public" returntype="array">
         <cfargument name="roleId" type="numeric" required="true">
         <cfset var role = entityLoadByPK("Role", roleId)>
         <cfreturn role>

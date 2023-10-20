@@ -12,12 +12,10 @@
             <!--- If an ID is provided, get a single role; else, get all roles --->
             <cfif structKeyExists(url, "user_id")>
                 <cfset userQuery = userController.getUserById(url.role_id)>
-                <cfset userData = utilLibrary.queryToArray(userQuery)>
             <cfelse>
                 <cfset userQuery = userController.getAllUsers()>
-                <cfset userData = utilLibrary.queryToArray(userQuery)>
             </cfif>
-            <cfoutput>#serializeJson({success: true, data: userData})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, data: userQuery})#</cfoutput>
         </cfcase>
 
         <!--- Create a new user --->
@@ -25,8 +23,7 @@
             <!--- Expect first_name, last_name, email, role_id --->
             <cfset jsonData = utilLibrary.getRequestJson()>
             <cfset newUser = userController.createUser(jsonData.first_name,jsonData.last_name,jsonData.email,jsonData.role_id)>
-            <cfset newUserArray = utilLibrary.queryToArray(newUser)>
-            <cfoutput>#serializeJson({success: true, data: newUserArray})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, message: "User Created"})#</cfoutput>
         </cfcase>
 
         <!--- Update an existing user --->
@@ -35,7 +32,7 @@
             <cfset jsonData = utilLibrary.getRequestJson()>
             <cfset updatedUser = userController.updateUser(jsonData.user_id, jsonData.first_name,jsonData.last_name,jsonData.email,jsonData.role_id)>
             <cfset updatedUserArray = utilLibrary.queryToArray(updatedUser)>
-            <cfoutput>#serializeJson({success: true, data: updatedUserArray})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, message: "User Updated"})#</cfoutput>
         </cfcase>
 
         <!--- Delete an existing user --->

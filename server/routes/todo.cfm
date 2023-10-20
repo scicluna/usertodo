@@ -12,13 +12,11 @@
             <cfif structKeyExists(url, "todo_id")>
                 <!--- Get a singular todo --->
                 <cfset todoQuery = todoController.getTodoById(url.todo_id)>
-                <cfset todos = utilLibrary.queryToArray(todoQuery)>
-                <cfoutput>#serializeJson({success: true, data: todos})#</cfoutput>
+                <cfoutput>#serializeJson({success: true, data: todoQuery})#</cfoutput>
             <cfelseif structKeyExists(url, "list_id")>
                 <!--- Get all todos from a list --->
                 <cfset todoQuery = todoController.getTodosFromTodoList(url.list_id)>
-                <cfset todos = utilLibrary.queryToArray(todoQuery)>
-                <cfoutput>#serializeJson({success: true, data: todos})#</cfoutput>
+                <cfoutput>#serializeJson({success: true, data: todoQuery})#</cfoutput>
             <cfelse>
                 <cfoutput>#serializeJSON({success: false, message: "Incorrect Parameters" })#</cfoutput>
             </cfif>
@@ -35,8 +33,7 @@
                 jsonBody.due_date,
                 jsonBody.completed
             )>
-            <cfset todo = utilLibrary.queryToArray(todoQuery)>
-            <cfoutput>#serializeJson({success: true, data: todo})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, message: "Todo Created"})#</cfoutput>
         </cfcase>
 
         <!--- Update a todo --->
@@ -50,8 +47,7 @@
                 jsonBody.due_date,
                 jsonBody.completed
             )>
-            <cfset todo = utilLibrary.queryToArray(todoQuery)>
-            <cfoutput>#serializeJson({success: true, data: todo})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, message: "Todo Updated"})#</cfoutput>
         </cfcase>
 
         <!--- Delete a todo --->

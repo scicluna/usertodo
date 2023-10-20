@@ -11,8 +11,7 @@
         <cfcase value="GET" >
             <!--- Expects fetch url to have a user id param --->
             <cfset userListsQuery = todoController.getUserTodoLists(url.user_id)>
-            <cfset todoLists = utilLibrary.queryToArray(userListsQuery)>
-            <cfoutput>#serializeJson({success: true, data: todoLists})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, data: userListsQuery})#</cfoutput>
         </cfcase>
 
         <!--- Create a new TodoList --->
@@ -21,7 +20,7 @@
             <cfset jsonBody = utilLibrary.getRequestJson()>
             <cfset todoListQuery = todoController.addTodoList(jsonBody.user_id,jsonBody.list_name)>
             <cfset todoList = utilLibrary.queryToArray(todoListQuery)>
-            <cfoutput>#serializeJson({success: true, data: todoList})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, message: "List Created"})#</cfoutput>
         </cfcase>
 
         <!--- Update a TodoList --->
@@ -30,7 +29,7 @@
             <cfset jsonBody = utilLibrary.getRequestJson()>
             <cfset todoListQuery = todoController.updateTodoList(jsonBody.list_id,jsonBody.list_name)>
             <cfset todoList = utilLibrary.queryToArray(todoListQuery)>
-            <cfoutput>#serializeJson({success: true, data: todoList})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, message: "List Updated"})#</cfoutput>
         </cfcase>
 
         <!--- Delete a TodoList --->
