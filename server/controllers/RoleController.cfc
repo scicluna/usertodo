@@ -29,15 +29,14 @@
 
         <cfset var role = entityLoadByPK("Role", arguments.roleId)>
 
-        <cfif NOT isDefined("role")>
-            <cfthrow message="Role not found">
+        <cfif role IS NOT null>
+            <cfset role.setRoleName(arguments.roleName)>
+            <cfset role.setDescription(arguments.description)>
+            <cfset entitySave(role)>
+            <cfreturn true>     
         </cfif>
 
-        <cfset role.setRoleName(arguments.roleName)>
-        <cfset role.setDescription(arguments.description)>
-
-        <cfset entitySave(role)>
-        <cfreturn true>    
+        <cfthrow message="Role not found">
     </cffunction>
 
     <cffunction name="deleteRole" access="public" returntype="any" >
@@ -45,11 +44,11 @@
 
         <cfset var role = entityLoadByPK("Role", arguments.roleId)>
 
-        <cfif NOT isDefined("role")>
-            <cfthrow message="Role not found">
+        <cfif role IS NOT null>
+            <cfset entityDelete(role)>
+            <cfreturn true>
         </cfif>
 
-        <cfset entityDelete(role)>
-        <cfreturn true>
+        <cfthrow message="Role not found">
     </cffunction>
 </cfcomponent>
