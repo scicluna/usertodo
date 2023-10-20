@@ -12,19 +12,19 @@
     </cffunction>
 
     <cffunction name="addTodoList" access="public"  returntype="boolean" > 
-        <cfargument name="userid" type="numeric" required="true" >
-        <cfargument name="listname" type="string" required="true" >
-        <cfset var user = entityLoadByPK("User", arguments.userid) >
+        <cfargument name="user_id" type="numeric" required="true" >
+        <cfargument name="list_name" type="string" required="true" >
+        <cfset var user = entityLoadByPK("User", arguments.user_id) >
 
         <cfif user IS NOT null>
             <cfset var todolist = entityNew("TodoList") >
             <cfset todolist.user = user>
-            <cfset todolist.list_name = arguments.listname>
+            <cfset todolist.list_name = arguments.list_name>
             <cfset entitySave(todolist)>
             <cfreturn true>
         </cfif>
 
-        <cfthrow message="User with ID #arguments.userid# not found.">
+        <cfthrow message="User with ID #arguments.user_id# not found.">
     </cffunction>
 
     <cffunction name="deleteTodoList" access="public" returntype="boolean">

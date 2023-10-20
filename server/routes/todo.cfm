@@ -1,6 +1,6 @@
 <!--- Set the content type for JSON responses --->
 <cfcontent type="application/json">
-<cfset roleController = new usertable.server.controllers.TodoController()>
+<cfset todoController = new usertable.server.controllers.TodoController()>
 <cfset utilLibrary = new usertable.server.utils.JsonFunctions()>
 
 <cftry>
