@@ -17,7 +17,7 @@
                 <cfset roleQuery = roleController.getAllRoles()>
                 <cfset roleData = utilLibrary.queryToArray(roleQuery)>
             </cfif>
-            <cfoutput>#serializeJson(roleData)#</cfoutput>
+            <cfoutput>#serializeJson({success: true, data: roleData})#</cfoutput>
         </cfcase>
 
         <!--- POST: Create a new role --->
@@ -25,7 +25,7 @@
             <!--- Assuming request body is in JSON format; Deserialize to CF structure --->
             <cfset requestBody = utilLibrary.getRequestJson()>
             <cfset newRole = roleController.createRole(requestBody.role_name)>
-            <cfoutput>#serializeJson({success: true})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, data: newRole})#</cfoutput>
         </cfcase>
 
         <!--- PUT: Update a role --->
@@ -33,13 +33,13 @@
             <!--- Assuming request body is in JSON format; Deserialize to CF structure --->
             <cfset requestBody = utilLibrary.getRequestJson()>
             <cfset updatedRole = roleController.updateRole(requestBody.role_id, requestBody.role_name)>
-            <cfoutput>#serializeJson({success: true})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, data: updatedRole})#</cfoutput>
         </cfcase>
 
         <!--- DELETE: Delete a role --->
         <cfcase value="DELETE">
             <cfset deleteResult = roleController.deleteRole(url.role_id)>
-            <cfoutput>#serializeJson({success: true})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, message: "Role Deleted"})#</cfoutput>
         </cfcase>
 
         <!--- Unsupported HTTP method --->

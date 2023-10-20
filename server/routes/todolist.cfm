@@ -37,7 +37,7 @@
         <cfcase value="DELETE" >
             <!--- Expects list_id in url --->
             <cfset deleteResult = todoController.deleteTodoList(url.list_id)>
-            <cfoutput>#serializeJSON({success: deleteResult})#</cfoutput>
+            <cfoutput>#serializeJSON({success: true, message: "List Deleted"})#</cfoutput>
         </cfcase>
 
         <!--- Unsupported HTTP method --->

@@ -17,7 +17,7 @@
                 <cfset userQuery = userController.getAllUsers()>
                 <cfset userData = utilLibrary.queryToArray(userQuery)>
             </cfif>
-            <cfoutput>#serializeJson(userData)#</cfoutput>
+            <cfoutput>#serializeJson({success: true, data: userData})#</cfoutput>
         </cfcase>
 
         <!--- Create a new user --->
@@ -26,7 +26,7 @@
             <cfset jsonData = utilLibrary.getRequestJson()>
             <cfset newUser = userController.createUser(jsonData.first_name,jsonData.last_name,jsonData.email,jsonData.role_id)>
             <cfset newUserArray = utilLibrary.queryToArray(newUser)>
-            <cfoutput>#serializeJson({success: true, user: newUserArray})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, data: newUserArray})#</cfoutput>
         </cfcase>
 
         <!--- Update an existing user --->
@@ -35,7 +35,7 @@
             <cfset jsonData = utilLibrary.getRequestJson()>
             <cfset updatedUser = userController.updateUser(jsonData.user_id, jsonData.first_name,jsonData.last_name,jsonData.email,jsonData.role_id)>
             <cfset updatedUserArray = utilLibrary.queryToArray(updatedUser)>
-            <cfoutput>#serializeJson({success: true, user: updatedUserArray})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, data: updatedUserArray})#</cfoutput>
         </cfcase>
 
         <!--- Delete an existing user --->
@@ -43,7 +43,7 @@
             <!--- Expect user_id --->
             <cfset jsonData = utilLibrary.getRequestJson()>
             <cfset deleteResult = userController.deleteUser(jsonData.user_id)>
-            <cfoutput>#serializeJson({success: true})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, message: "User Deleted"})#</cfoutput>
         </cfcase>
 
         <!--- If the HTTP method is not supported, return an error --->
