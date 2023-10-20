@@ -11,4 +11,8 @@
         </cfloop>
         <cfreturn dataArray>
     </cffunction>
+
+    <cffunction name="getRequestJson" access="public" returntype="struct">
+        <cfreturn deserializeJson(toString(getHttpRequestData().content))>
+    </cffunction>
 </cfcomponent>

@@ -23,7 +23,7 @@
         <!--- POST: Create a new role --->
         <cfcase value="POST">
             <!--- Assuming request body is in JSON format; Deserialize to CF structure --->
-            <cfset requestBody = deserializeJson(toString(getHttpRequestData().content))>
+            <cfset requestBody = utilLibrary.getRequestJson()>
             <cfset newRole = roleController.createRole(requestBody.role_name)>
             <cfoutput>#serializeJson({success: true})#</cfoutput>
         </cfcase>
@@ -31,7 +31,7 @@
         <!--- PUT: Update a role --->
         <cfcase value="PUT">
             <!--- Assuming request body is in JSON format; Deserialize to CF structure --->
-            <cfset requestBody = deserializeJson(toString(getHttpRequestData().content))>
+            <cfset requestBody = utilLibrary.getRequestJson()>
             <cfset updatedRole = roleController.updateRole(requestBody.role_id, requestBody.role_name)>
             <cfoutput>#serializeJson({success: true})#</cfoutput>
         </cfcase>
