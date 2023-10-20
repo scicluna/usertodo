@@ -72,13 +72,13 @@
     </cffunction>
 
     <cffunction name="createTodo" access="public" returntype="boolean" >
-        <cfargument name="todolistid" type="numeric" required="true" >
+        <cfargument name="list_id" type="numeric" required="true" >
         <cfargument name="title" type="string" required="true" >
         <cfargument name="description" type="string" required="true" >
         <cfargument name="duedate" type="date" required="true" >
         <cfargument name="completed" type="boolean"  default="false">
         <cfset var todo = entityNew("Todo") >
-        <cfset var todolist = entityLoadByPK("TodoList", arguments.todolistid) >
+        <cfset var todolist = entityLoadByPK("TodoList", arguments.list_id) >
 
         <cfif todolist IS NOT null>
             <cfset todo.list = todolist>
