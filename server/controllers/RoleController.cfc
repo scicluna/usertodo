@@ -1,5 +1,4 @@
 <cfcomponent >
-
     <cffunction name="getAllRoles" access="public" returntype="query">
             <cfset var roles = entityLoad("Role")>
             <cfreturn roles>
@@ -53,5 +52,4 @@
         <cfset entityDelete(role)>
         <cfreturn true>
     </cffunction>
-
 </cfcomponent>
