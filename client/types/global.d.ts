@@ -1,8 +1,8 @@
 type Role = {
-    role_id: number;
-    role_name: string;
-    description?: string; // Since it's not marked as "required" in the CF component, it's made optional here
-    users: User[]; // Assuming there's a corresponding 'User' type defined somewhere
+    ROLE_ID: number;
+    ROLE_NAME: string;
+    DESCRIPTIONS?: string; // Since it's not marked as "required" in the CF component, it's made optional here
+    USERS: User[]; // Assuming there's a corresponding 'User' type defined somewhere
 };
 
 type User = {
@@ -26,7 +26,7 @@ type Todo = {
     todo_id: number;
     title: string;
     description?: string;  // Since it's not marked as "required" in the CF component, it's made optional here
-    due_date: Date;
+    due_date: string;
     completed: boolean;
     list: number;  // This is a numeric representation (ID) of the todo list associated with the todo
 };

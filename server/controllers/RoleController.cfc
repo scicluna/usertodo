@@ -1,54 +1,68 @@
-<cfcomponent >
-    <cffunction name="getAllRoles" access="public" returntype="array">
-            <cfset var roles = entityLoad("Role")>
-            <cfreturn roles>
+<cfcomponent>
+    <cfset utilLibrary = new usertable.server.utils.JsonFunctions()>
+    <cffunction name="getAllRoles" access="public" returntype="Array">
+        <cfquery name="roles" datasource="usertable" result="roles">
+            SELECT * FROM roles
+        </cfquery>
+        <cfreturn utilLibrary.queryToArray(roles)>
     </cffunction>
 
-    <cffunction name="getRoleById" access="public" returntype="array">
+    <cffunction name="getRoleById" access="public" returntype="query">
         <cfargument name="roleId" type="numeric" required="true">
-        <cfset var role = entityLoadByPK("Role", roleId)>
+        <cfquery name="role" datasource="usertable">
+            SELECT * FROM roles WHERE role_id = <cfqueryparam value="#arguments.roleId#" cfsqltype="cf_sql_integer">
+        </cfquery>
         <cfreturn role>
     </cffunction>
 
-    <cffunction name="createRole" access="public" returntype="any" >
-        <cfargument name="roleName" type="string" required="true">
-        <cfargument name="description" type="string" required="false" default="" >
-        <cfset var role = entityNew("Role")>
+    <cffunction name="createRole" access="public" returntype="any">
+        <cfargument name="role_name" type="string" required="true">
+        <cfargument name="description" type="string" required="false" default="">
 
-        <cfset role.setRoleName(arguments.roleName)>
-        <cfset role.setDescription(arguments.description)>
+        <cftry>
+            <cfquery datasource="usertable">
+                INSERT INTO roles (role_name, description)
+                VALUES (<cfqueryparam value="#arguments.role_name#" cfsqltype="cf_sql_varchar">, 
+                        <cfqueryparam value="#arguments.description#" cfsqltype="cf_sql_varchar">)
+            </cfquery>
+            <cfreturn true>
 
-        <cfset entitySave(role)>
+            <cfcatch>
+                <cfthrow message="Error while creating role: #cfcatch.message#">
+            </cfcatch>
+        </cftry>
+    </cffunction>
+
+    <cffunction name="updateRole" access="public" returntype="any">
+        <cfargument name="role_id" type="numeric" required="true">
+        <cfargument name="role_name" type="string" required="true">
+        <cfargument name="description" type="string" required="false" default="">
+
+        <cfquery datasource="usertable" result="queryResult">
+            UPDATE roles 
+            SET role_name = <cfqueryparam value="#arguments.role_name#" cfsqltype="cf_sql_varchar">,
+                description = <cfqueryparam value="#arguments.description#" cfsqltype="cf_sql_varchar">
+            WHERE role_id = <cfqueryparam value="#arguments.role_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+
+        <cfif queryResult.RECORDCOUNT eq 0>
+            <cfthrow message="Role not found">
+        </cfif>
+
         <cfreturn true>
     </cffunction>
 
-    <cffunction name="updateRole"  access="public" returntype="any" >
-        <cfargument name="roleId" type="numeric" required="true">
-        <cfargument name="roleName" type="string" required="true">
-        <cfargument name="description" type="string" required="false" default="" >
+    <cffunction name="deleteRole" access="public" returntype="any">
+        <cfargument name="role_id" type="numeric" required="true">
 
-        <cfset var role = entityLoadByPK("Role", arguments.roleId)>
+        <cfquery datasource="usertable" result="queryResult">
+            DELETE FROM roles WHERE role_id = <cfqueryparam value="#arguments.role_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
 
-        <cfif role IS NOT null>
-            <cfset role.setRoleName(arguments.roleName)>
-            <cfset role.setDescription(arguments.description)>
-            <cfset entitySave(role)>
-            <cfreturn true>     
+        <cfif queryResult.RECORDCOUNT eq 0>
+            <cfthrow message="Role not found">
         </cfif>
 
-        <cfthrow message="Role not found">
-    </cffunction>
-
-    <cffunction name="deleteRole" access="public" returntype="any" >
-        <cfargument name="roleId" type="numeric" required="true">
-
-        <cfset var role = entityLoadByPK("Role", arguments.roleId)>
-
-        <cfif role IS NOT null>
-            <cfset entityDelete(role)>
-            <cfreturn true>
-        </cfif>
-
-        <cfthrow message="Role not found">
+        <cfreturn true>
     </cffunction>
 </cfcomponent>

@@ -1,15 +1,19 @@
 <cfcomponent >
     <cffunction name="queryToArray" returntype="array">
-        <cfargument name="query" type="query" required="true">
-        <cfset var dataArray = []>
-        <cfloop query="query">
-            <cfset var dataStruct = {}>
-            <cfloop list="#query.columnList#" index="col">
-                <cfset dataStruct[col] = query[col][query.CurrentRow]>
-            </cfloop>
-            <cfset arrayAppend(dataArray, dataStruct)>
+   <cfargument name="query" type="query" required="true">
+    
+    <cfset var resultArray = []>
+    <cfset var rowObject = {}>
+    
+    <cfloop query="query">
+        <cfset rowObject = {}>
+        <cfloop list="#query.columnList#" index="column">
+            <cfset rowObject[column] = query[column][query.currentRow]>
         </cfloop>
-        <cfreturn dataArray>
+        <cfset arrayAppend(resultArray, rowObject)>
+    </cfloop>
+    
+    <cfreturn resultArray>
     </cffunction>
 
     <cffunction name="getRequestJson" access="public" returntype="struct">

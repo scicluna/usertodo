@@ -5,7 +5,7 @@
     <cfset THIS.SessionManagement = true>
     <cfset THIS.SessionTimeout = CreateTimeSpan(0,0,30,0)>
     <cfset THIS.ormEnabled = true>
-    <cfset THIS.datasource = "usertable">
+    <cfset THIS.ormsettings = {datasource="usertable", logsql="true", cacheuse="false", dbcreate="none"}>
 
     <!--- Handle CORS and Preflight Requests --->
     <cffunction name="onRequestStart">

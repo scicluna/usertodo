@@ -1,10 +1,10 @@
 <cfcomponent >
-    <cffunction name="getAllUsers" access="public"  returntype="Query" >
+    <cffunction name="getAllUsers" access="public"  returntype="Array" >
         <cfset var users = entityLoad("User")>  
         <cfreturn users>      
     </cffunction>
 
-    <cffunction name="getUserById" access="public"  returntype="Query" >
+    <cffunction name="getUserById" access="public"  returntype="Array" >
         <cfargument name="user_id" type="numeric" required="true">
         <cfset var user = entityLoadByPk("User",arguments.user_id)>  
 

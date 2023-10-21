@@ -11,7 +11,7 @@
         <cfcase value="GET">
             <!--- If an ID is provided, get a single role; else, get all roles --->
             <cfif structKeyExists(url, "user_id")>
-                <cfset userQuery = userController.getUserById(url.role_id)>
+                <cfset userQuery = userController.getUserById(url.user_id)>
             <cfelse>
                 <cfset userQuery = userController.getAllUsers()>
             </cfif>

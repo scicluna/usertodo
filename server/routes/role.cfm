@@ -10,7 +10,7 @@
         <!--- GET: Retrieve roles --->
         <cfcase value="GET">
             <!--- If an ID is provided, get a single role; else, get all roles --->
-            <cfif structKeyExists(url, "role_id")>
+            <cfif structKeyExists(url, "role_id") AND len(trim(arguments.role_name))>
                 <cfset roleQuery = roleController.getRoleById(url.role_id)>
             <cfelse>
                 <cfset roleQuery = roleController.getAllRoles()>
@@ -22,8 +22,8 @@
         <cfcase value="POST">
             <!--- Assuming request body is in JSON format; Deserialize to CF structure --->
             <cfset requestBody = utilLibrary.getRequestJson()>
-            <cfset newRole = roleController.createRole(requestBody.role_name)>
-            <cfoutput>#serializeJson({success: true, data: newRole})#</cfoutput>
+            <cfset newRole = roleController.createRole(requestBody.role_name, requestBody.description)>
+            <cfoutput>#serializeJson({success: true, message: "Role Created"})#</cfoutput>
         </cfcase>
 
         <!--- PUT: Update a role --->
@@ -31,7 +31,7 @@
             <!--- Assuming request body is in JSON format; Deserialize to CF structure --->
             <cfset requestBody = utilLibrary.getRequestJson()>
             <cfset updatedRole = roleController.updateRole(requestBody.role_id, requestBody.role_name)>
-            <cfoutput>#serializeJson({success: true, data: updatedRole})#</cfoutput>
+            <cfoutput>#serializeJson({success: true, message: "Role Updated"})#</cfoutput>
         </cfcase>
 
         <!--- DELETE: Delete a role --->

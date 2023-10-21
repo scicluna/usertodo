@@ -4,7 +4,7 @@ USE usertable;
 CREATE TABLE IF NOT EXISTS roles (
     role_id INT AUTO_INCREMENT PRIMARY KEY,
     role_name VARCHAR(255) NOT NULL,
-    description TEXT
+    `description` TEXT
 );
 
 CREATE TABLE IF NOT EXISTS users (
