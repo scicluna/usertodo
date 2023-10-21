@@ -2,7 +2,7 @@ import CreateRoleForm from "@/components/client/CreateRoleForm";
 import { getRoles } from "@/utils/roles/getRoles";
 import Link from "next/link";
 
-
+//add optimistic updates?
 export default async function Roles() {
     const roles = await getRoles()
 
