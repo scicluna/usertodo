@@ -9,7 +9,15 @@
         </cfquery>
         <cfreturn utilLibrary.queryToArray(result)>
     </cffunction>
-
+    
+    <cffunction name="getTodoList" access="public" returntype="Array" >
+        <cfargument name="list_id" type="numeric" required="true" >
+        <cfquery name="result" datasource="usertable" result="result">
+            SELECT * FROM todolists WHERE list_id = <cfqueryparam value="#arguments.list_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn utilLibrary.queryToArray(result)>
+    </cffunction>
+    
     <cffunction name="addTodoList" access="public" returntype="boolean">
         <cfargument name="user_id" type="numeric" required="true">
         <cfargument name="list_name" type="string" required="true">
@@ -82,13 +90,12 @@
         <cfargument name="todo_id" type="numeric" required="true">
         <cfargument name="title" type="string" required="true">
         <cfargument name="description" type="string" required="true">
-        <cfargument name="due_date" type="date" required="true">
         <cfargument name="completed" type="boolean"  default="false">
         <cfquery name="result" datasource="usertable">
             UPDATE todos SET 
                 title = <cfqueryparam value="#arguments.title#" cfsqltype="cf_sql_varchar">,
                 description = <cfqueryparam value="#arguments.description#" cfsqltype="cf_sql_varchar">,
-                NOW(),
+                due_date = NOW(),
                 completed = <cfqueryparam value="#arguments.completed#" cfsqltype="cf_sql_bit">
             WHERE todo_id = <cfqueryparam value="#arguments.todo_id#" cfsqltype="cf_sql_integer">
         </cfquery>

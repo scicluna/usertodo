@@ -10,7 +10,11 @@
         <!--- Get One User's TodoLists --->
         <cfcase value="GET" >
             <!--- Expects fetch url to have a user id param --->
+            <cfif structKeyExists(url, "user_id")>
             <cfset userListsQuery = todoController.getUserTodoLists(url.user_id)>
+            <cfelseif structKeyExists(url, "list_id")>
+            <cfset userListsQuery = todoController.getTodoList(url.list_id)>
+            </cfif>
             <cfoutput>#serializeJson({success: true, data: userListsQuery})#</cfoutput>
         </cfcase>
 

@@ -45,7 +45,6 @@
                 jsonBody.todo_id,
                 jsonBody.title,
                 jsonBody.description,
-                jsonBody.due_date,
                 jsonBody.completed
             )>
             <cfoutput>#serializeJson({success: true, message: "Todo Updated"})#</cfoutput>
