@@ -8,15 +8,15 @@
         <cfreturn utilLibrary.queryToArray(users) >
     </cffunction>
 
-    <cffunction name="getUserById" access="public" returntype="query">
+    <cffunction name="getUserById" access="public" returntype="Array">
         <cfargument name="user_id" type="numeric" required="true">
         
-        <cfquery name="user" datasource="usertable">
+        <cfquery name="user" datasource="usertable" result="user">
             SELECT * FROM users WHERE user_id = <cfqueryparam value="#arguments.user_id#" cfsqltype="cf_sql_integer">
         </cfquery>
         
         <cfif user.RecordCount>
-            <cfreturn user>
+            <cfreturn utilLibrary.queryToArray(user)>
         <cfelse>
             <cfthrow message="User with ID #arguments.user_id# not found.">
         </cfif>

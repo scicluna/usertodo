@@ -16,17 +16,17 @@ type User = {
 };
 
 type TodoList = {
-    list_id: number;
-    list_name: string;
-    user: number;  // This is a numeric representation (ID) of the user associated with the todo list
-    todos: Todo[];
+    LIST_ID: number;
+    LIST_NAME: string;
+    USER: number;  // This is a numeric representation (ID) of the user associated with the todo list
+    TODOS: Todo[];
 };
 
 type Todo = {
-    todo_id: number;
-    title: string;
-    description?: string;  // Since it's not marked as "required" in the CF component, it's made optional here
-    due_date: string;
-    completed: boolean;
-    list: number;  // This is a numeric representation (ID) of the todo list associated with the todo
+    TODO_ID: number;
+    TITLE: string;
+    DESCRIPTION?: string;  // Since it's not marked as "required" in the CF component, it's made optional here
+    DUE_DATE: string;
+    COMPLETED: boolean;
+    LIST: number;  // This is a numeric representation (ID) of the todo list associated with the todo
 };

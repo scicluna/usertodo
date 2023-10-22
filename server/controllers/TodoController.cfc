@@ -1,13 +1,13 @@
 <cfcomponent>
-
+    <cfset utilLibrary = new usertable.server.utils.JsonFunctions()>
     <!--- TodoList methods --->
 
-    <cffunction name="getUserTodoLists" access="public"  returntype="Query">
+    <cffunction name="getUserTodoLists" access="public"  returntype="Array">
         <cfargument name="user_id" type="numeric" required="true">
-        <cfquery name="result" datasource="usertable">
+        <cfquery name="result" datasource="usertable" result="result">
             SELECT * FROM todolists WHERE user_id = <cfqueryparam value="#arguments.user_id#" cfsqltype="cf_sql_integer">
         </cfquery>
-        <cfreturn result>
+        <cfreturn utilLibrary.queryToArray(result)>
     </cffunction>
 
     <cffunction name="addTodoList" access="public" returntype="boolean">
