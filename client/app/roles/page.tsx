@@ -1,21 +1,20 @@
 import CreateRoleForm from "@/components/client/CreateRoleForm";
+import RoleItem from "@/components/client/RoleItem";
 import { getRoles } from "@/utils/roles/getRoles";
-import Link from "next/link";
 
-//add optimistic updates?
 export default async function Roles() {
     const roles = await getRoles()
 
     return (
         <main className="h-[100dvh]">
             <CreateRoleForm />
-            <section className="flex flex-col gap-2">
+            <section className="flex flex-col gap-2 justify-center items-center  text-3xl font-bold">
                 {(!roles.data.DATA || roles.data.DATA.length == 0)
                     ?
                     <p>Could not fetch roles</p>
                     :
                     roles.data.DATA.map((role: Role) => (
-                        <Link href={`/roles/${role.ROLE_ID}`}>{role.ROLE_NAME}</Link>
+                        <RoleItem key={role.ROLE_ID} role={role} />
                     ))}
             </section>
         </main>
