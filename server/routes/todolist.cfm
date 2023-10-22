@@ -19,7 +19,6 @@
             <!--- Expects user_id and list_name in body --->
             <cfset jsonBody = utilLibrary.getRequestJson()>
             <cfset todoListQuery = todoController.addTodoList(jsonBody.user_id,jsonBody.list_name)>
-            <cfset todoList = utilLibrary.queryToArray(todoListQuery)>
             <cfoutput>#serializeJson({success: true, message: "List Created"})#</cfoutput>
         </cfcase>
 
@@ -28,7 +27,6 @@
             <!--- Expects list_id and list_name in body --->
             <cfset jsonBody = utilLibrary.getRequestJson()>
             <cfset todoListQuery = todoController.updateTodoList(jsonBody.list_id,jsonBody.list_name)>
-            <cfset todoList = utilLibrary.queryToArray(todoListQuery)>
             <cfoutput>#serializeJson({success: true, message: "List Updated"})#</cfoutput>
         </cfcase>
 

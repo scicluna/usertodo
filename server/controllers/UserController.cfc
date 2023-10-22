@@ -1,100 +1,90 @@
-<cfcomponent >
-    <cffunction name="getAllUsers" access="public"  returntype="Array" >
-        <cfset var users = entityLoad("User")>  
-        <cfreturn users>      
+<cfcomponent>
+    <cffunction name="getAllUsers" access="public" returntype="query">
+        <cfquery name="users" datasource="usertable">
+            SELECT * FROM users
+        </cfquery>
+        <cfreturn users>
     </cffunction>
 
-    <cffunction name="getUserById" access="public"  returntype="Array" >
+    <cffunction name="getUserById" access="public" returntype="query">
         <cfargument name="user_id" type="numeric" required="true">
-        <cfset var user = entityLoadByPk("User",arguments.user_id)>  
-
-        <cfif NOT user == null>
-            <cfreturn user>       
-        </cfif>
         
-        <cfthrow message="User with ID #arguments.user_id# not found.">
+        <cfquery name="user" datasource="usertable">
+            SELECT * FROM users WHERE user_id = <cfqueryparam value="#arguments.user_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        
+        <cfif user.RecordCount>
+            <cfreturn user>
+        <cfelse>
+            <cfthrow message="User with ID #arguments.user_id# not found.">
+        </cfif>
     </cffunction>
 
-    <cffunction name="createUser" access="public" returntype="boolean" >
-        <cfargument name="first_name" type="string" required="true" >
-        <cfargument name="last_name" type="string" required="true" >
-        <cfargument name="email" type="string" required="true" >
-        <cfargument name="role_id" type="numeric" required="true" >
-
-        <cfset var user = entityNew("User")>
-        <cfset var role = entityLoadByPK("Role", arguments.role_id)>
+    <cffunction name="createUser" access="public" returntype="boolean">
+        <cfargument name="first_name" type="string" required="true">
+        <cfargument name="last_name" type="string" required="true">
+        <cfargument name="email" type="string" required="true">
+        <cfargument name="role_id" type="numeric" required="true">
 
         <cfif emailExists(arguments.email)>
             <cfthrow message="The email #arguments.email# is already in use.">
         </cfif>
 
-        <cfif role IS NOT null>
-            <cfset user.first_name = arguments.first_name>
-            <cfset user.last_name = arguments.last_name>
-            <cfset user.email = arguments.email>
-            <cfset user.role = role>
-            <cfset entitySave(user)>
-            <cfreturn true>
-        </cfif>
+        <cfquery datasource="usertable">
+            INSERT INTO users (first_name, last_name, email, role_id)
+            VALUES (
+                <cfqueryparam value="#arguments.first_name#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.last_name#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.email#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.role_id#" cfsqltype="cf_sql_integer">
+            )
+        </cfquery>
 
-        <cfthrow message="Role with ID #arguments.role_id# not found.">
+        <cfreturn true>
     </cffunction>
 
     <cffunction name="updateUser" access="public"  returntype="boolean" >
         <cfargument name="user_id" type="numeric" required="true">
-        <cfargument name="first_name" type="string" required="true" >
-        <cfargument name="last_name" type="string" required="true" >
-        <cfargument name="email" type="string" required="true" >
-        <cfargument name="role_id" type="numeric" required="true" >
+        <cfargument name="first_name" type="string" required="true">
+        <cfargument name="last_name" type="string" required="true">
+        <cfargument name="email" type="string" required="true">
+        <cfargument name="role_id" type="numeric" required="true">
 
-        <cfset var user = entityLoad("User",arguments.user_id)>  
-        <cfset var role = entityLoadByPK("Role", arguments.role_id)>
-        <cfset var existingUserWithEmail = entityLoad("User", {email=arguments.email})>
-
-        <cfif ArrayLen(existingUserWithEmail) AND existingUserWithEmail[1].user_id != arguments.user_id>
-            <cfthrow message="The email #arguments.email# is already in use by another user.">
+        <cfif emailExists(arguments.email)>
+            <cfthrow message="The email #arguments.email# is already in use.">
         </cfif>
 
-        <cfif user IS NOT null AND role IS NOT null>
-            <cfset user.first_name = arguments.first_name>
-            <cfset user.last_name = arguments.last_name>
-            <cfset user.email = arguments.email>
-            <cfset user.role = role>
-            <cfset entitySave(user)>
-            <cfreturn true>
-        </cfif>
+        <cfquery datasource="usertable">
+            UPDATE users 
+            SET 
+            first_name = <cfqueryparam value="#arguments.first_name#" cfsqltype="cf_sql_varchar">,
+            last_name = <cfqueryparam value="#arguments.last_name#" cfsqltype="cf_sql_varchar">,
+            email = <cfqueryparam value="#arguments.email#" cfsqltype="cf_sql_varchar">,
+            role_id = <cfqueryparam value="#arguments.role_id#" cfsqltype="cf_sql_integer">
+            WHERE 
+            user_id = <cfqueryparam value="#arguments.user_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
 
-        <cfif user IS NULL>
-            <cfthrow message="User with ID #arguments.user_id# not found.">
-        </cfif>
-        <cfif role IS NULL>
-            <cfthrow message="Role with ID #arguments.role_id# not found.">
-        </cfif>       
-
-        <cfthrow message="Failed to Update" >
+        <cfreturn true>
     </cffunction>
 
-    <cffunction name="deleteUser" access="public" returntype="boolean" >
+    <cffunction name="deleteUser" access="public" returntype="boolean">
         <cfargument name="user_id" type="numeric" required="true">
-        <cfset var user = entityLoad("User",arguments.user_id)>  
 
-        <cfif user IS NOT null>
-            <cfset entityDelete(user)>
-            <cfreturn true>
-        </cfif>
+        <cfquery datasource="usertable">
+            DELETE FROM users WHERE user_id = <cfqueryparam value="#arguments.user_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
 
-        <cfthrow message="User with ID #arguments.user_id# not found.">
-    </cffunction> 
+        <cfreturn true>
+    </cffunction>
 
     <cffunction name="emailExists" access="private" returntype="boolean">
         <cfargument name="email" type="string" required="true">
         
-        <cfset var users = entityLoad("User", {email=arguments.email})>
+        <cfquery name="users" datasource="usertable">
+            SELECT email FROM users WHERE email = <cfqueryparam value="#arguments.email#" cfsqltype="cf_sql_varchar">
+        </cfquery>
         
-        <cfif ArrayLen(users)>
-            <cfreturn true>
-        </cfif>
-        
-        <cfreturn false>
+        <cfreturn users.RecordCount gt 0>
     </cffunction>
 </cfcomponent>

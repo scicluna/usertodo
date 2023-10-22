@@ -38,8 +38,7 @@
         <!--- Delete an existing user --->
         <cfcase value="DELETE">
             <!--- Expect user_id --->
-            <cfset jsonData = utilLibrary.getRequestJson()>
-            <cfset deleteResult = userController.deleteUser(jsonData.user_id)>
+            <cfset deleteResult = userController.deleteUser(url.user_id)>
             <cfoutput>#serializeJson({success: true, message: "User Deleted"})#</cfoutput>
         </cfcase>
 

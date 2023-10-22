@@ -1,127 +1,105 @@
-<cfcomponent >
-    <!--- TodoList methods --->
-    <cffunction name="getUserTodoLists" access="public"  returntype="Query" >
-        <cfargument name="user_id" type="numeric" required="true" >
-        <cfset var todolists = entityLoad("TodoList", {user_id = arguments.user_id}) >
-        
-        <cfif todolists IS NOT null>
-            <cfreturn todolists >
-        </cfif>
+<cfcomponent>
 
-        <cfthrow message="User with ID #arguments.user_id# not found.">
+    <!--- TodoList methods --->
+
+    <cffunction name="getUserTodoLists" access="public"  returntype="Query">
+        <cfargument name="user_id" type="numeric" required="true">
+        <cfquery name="result" datasource="usertable">
+            SELECT * FROM todolists WHERE user_id = <cfqueryparam value="#arguments.user_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn result>
     </cffunction>
 
-    <cffunction name="addTodoList" access="public"  returntype="boolean" > 
-        <cfargument name="user_id" type="numeric" required="true" >
-        <cfargument name="list_name" type="string" required="true" >
-        <cfset var user = entityLoadByPK("User", arguments.user_id) >
-
-        <cfif user IS NOT null>
-            <cfset var todolist = entityNew("TodoList") >
-            <cfset todolist.user = user>
-            <cfset todolist.list_name = arguments.list_name>
-            <cfset entitySave(todolist)>
-            <cfreturn true>
-        </cfif>
-
-        <cfthrow message="User with ID #arguments.user_id# not found.">
+    <cffunction name="addTodoList" access="public" returntype="boolean">
+        <cfargument name="user_id" type="numeric" required="true">
+        <cfargument name="list_name" type="string" required="true">
+        <cfquery name="result" datasource="usertable">
+            INSERT INTO todolists (user_id, list_name) 
+            VALUES (
+                <cfqueryparam value="#arguments.user_id#" cfsqltype="cf_sql_integer">,
+                <cfqueryparam value="#arguments.list_name#" cfsqltype="cf_sql_varchar">
+            )
+        </cfquery>
+        <cfreturn true>
     </cffunction>
 
     <cffunction name="deleteTodoList" access="public" returntype="boolean">
         <cfargument name="list_id" type="numeric" required="true">
-        <cfset var todolist = entityLoadByPK("TodoList", arguments.list_id)>
-        
-        <cfif todolist IS NOT null>
-            <cfset entityDelete(todolist)>
-            <cfreturn true>
-        </cfif>
-            
-        <cfthrow message="TodoList with ID #arguments.list_id# not found.">
+        <cfquery name="result" datasource="usertable">
+            DELETE FROM todolists WHERE list_id = <cfqueryparam value="#arguments.list_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn true>
     </cffunction>
 
-    <cffunction name="updateTodoList" access="public"  returntype="boolean" > 
-        <cfargument name="list_id" type="numeric" required="true" >
-        <cfargument name="listname" type="string" required="true" >
-        <cfset var todolist = entityLoadByPK("TodoList",arguments.list_id)>
-
-        <cfif todolist IS NOT null>
-            <cfset todolist.list_name = arguments.listname>
-            <cfset entitySave(todolist)>
-            <cfreturn true>
-        </cfif>
-
-        <cfthrow message="TodoList with ID #arguments.list_id# not found.">
+    <cffunction name="updateTodoList" access="public"  returntype="boolean">
+        <cfargument name="list_id" type="numeric" required="true">
+        <cfargument name="listname" type="string" required="true">
+        <cfquery name="result" datasource="usertable">
+            UPDATE todolists SET list_name = <cfqueryparam value="#arguments.listname#" cfsqltype="cf_sql_varchar">
+            WHERE list_id = <cfqueryparam value="#arguments.list_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn true>
     </cffunction>
 
     <!--- Todo methods --->
-    <cffunction name="getTodosFromTodoList" access="public" returntype="Query" >
-        <cfargument name="list_id" type="numeric" required="true" >
-        <cfset var todolist = entityLoad("Todo", {list_id = arguments.list_id}) >
-        
-        <cfif todolist IS NOT null>
-            <cfreturn todolist >
-        </cfif>
-        
-        <cfthrow message="TodoList with ID #arguments.list_id# not found.">
+
+    <cffunction name="getTodosFromTodoList" access="public" returntype="Query">
+        <cfargument name="list_id" type="numeric" required="true">
+        <cfquery name="result" datasource="usertable">
+            SELECT * FROM todos WHERE list_id = <cfqueryparam value="#arguments.list_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn result>
     </cffunction>
 
     <cffunction name="getTodoById" access="public" returntype="Query" >
-        <cfargument name="todo_id" type="numeric" required="true" >
-        <cfset var todo = entityLoad("Todo", arguments.todo_id) >
-        <cfreturn todo >
+        <cfargument name="todo_id" type="numeric" required="true">
+        <cfquery name="result" datasource="usertable">
+            SELECT * FROM todos WHERE todo_id = <cfqueryparam value="#arguments.todo_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn result>
     </cffunction>
 
-    <cffunction name="createTodo" access="public" returntype="boolean" >
-        <cfargument name="list_id" type="numeric" required="true" >
-        <cfargument name="title" type="string" required="true" >
-        <cfargument name="description" type="string" required="true" >
-        <cfargument name="due_date" type="date" required="true" >
+    <cffunction name="createTodo" access="public" returntype="boolean">
+        <cfargument name="list_id" type="numeric" required="true">
+        <cfargument name="title" type="string" required="true">
+        <cfargument name="description" type="string" required="true">
+        <cfargument name="due_date" type="date" required="true">
         <cfargument name="completed" type="boolean"  default="false">
-        <cfset var todo = entityNew("Todo") >
-        <cfset var todolist = entityLoadByPK("TodoList", arguments.list_id) >
-
-        <cfif todolist IS NOT null>
-            <cfset todo.list = todolist>
-            <cfset todo.title = arguments.title>
-            <cfset todo.description = arguments.description>
-            <cfset todo.due_date = arguments.due_date>
-            <cfset todo.completed = arguments.completed>
-            <cfset entitySave(todo)>
-            <cfreturn true>
-        </cfif>
-
-        <cfthrow message="TodoList with ID #arguments.todolistid# not found.">
+        <cfquery name="result" datasource="usertable">
+            INSERT INTO todos (list_id, title, description, due_date, completed) VALUES (
+                <cfqueryparam value="#arguments.list_id#" cfsqltype="cf_sql_integer">,
+                <cfqueryparam value="#arguments.title#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.description#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.due_date#" cfsqltype="cf_sql_date">,
+                <cfqueryparam value="#arguments.completed#" cfsqltype="cf_sql_bit">
+            )
+        </cfquery>
+        <cfreturn true>
     </cffunction>
 
     <cffunction name="updateTodo"  access="public" returntype="boolean">
-        <cfargument name="todo_id" type="numeric" required="true" >
-        <cfargument name="title" type="string" required="true" >
-        <cfargument name="description" type="string" required="true" >
-        <cfargument name="due_date" type="date" required="true" >
+        <cfargument name="todo_id" type="numeric" required="true">
+        <cfargument name="title" type="string" required="true">
+        <cfargument name="description" type="string" required="true">
+        <cfargument name="due_date" type="date" required="true">
         <cfargument name="completed" type="boolean"  default="false">
-        <cfset var todo = entityLoadByPK("Todo", arguments.todo_id) >
-
-        <cfif todo IS NOT null>
-            <cfset todo.title = arguments.title>
-            <cfset todo.description = arguments.description>
-            <cfset todo.due_date = arguments.due_date>
-            <cfset todo.completed = arguments.completed>
-            <cfset entitySave(todo)>
-            <cfreturn true>
-        </cfif>
-
-        <cfthrow message="Todo with ID #arguments.todo_id# not found.">
+        <cfquery name="result" datasource="usertable">
+            UPDATE todos SET 
+                title = <cfqueryparam value="#arguments.title#" cfsqltype="cf_sql_varchar">,
+                description = <cfqueryparam value="#arguments.description#" cfsqltype="cf_sql_varchar">,
+                due_date = <cfqueryparam value="#arguments.due_date#" cfsqltype="cf_sql_date">,
+                completed = <cfqueryparam value="#arguments.completed#" cfsqltype="cf_sql_bit">
+            WHERE todo_id = <cfqueryparam value="#arguments.todo_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn true>
     </cffunction>
 
-    <cffunction name="deleteTodo" access="public"  returntype="boolean" >
-        <cfargument name="todo_id" >
-        <cfset var todo = entityLoadByPK("Todo", arguments.todo_id) >
-
-        <cfif todo IS NOT null>
-            <cfset entityDelete(todo)>
-            <cfreturn true>
-        </cfif>
-            
-        <cfthrow message="Todo with ID #arguments.todo_id# not found.">
+    <cffunction name="deleteTodo" access="public"  returntype="boolean">
+        <cfargument name="todo_id" type="numeric" required="true">
+        <cfquery name="result" datasource="usertable">
+            DELETE FROM todos WHERE todo_id = <cfqueryparam value="#arguments.todo_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+        <cfreturn true>
     </cffunction>
+
 </cfcomponent>
