@@ -1,5 +1,5 @@
-import CreateRoleForm from "@/components/client/CreateRoleForm";
-import RoleItem from "@/components/client/RoleItem";
+import CreateRoleForm from "@/components/client/role/CreateRoleForm";
+import RoleItem from "@/components/client/role/RoleItem";
 import { getRoles } from "@/utils/roles/getRoles";
 
 export default async function Roles() {

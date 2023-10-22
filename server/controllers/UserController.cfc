@@ -1,9 +1,11 @@
 <cfcomponent>
-    <cffunction name="getAllUsers" access="public" returntype="query">
-        <cfquery name="users" datasource="usertable">
+    <cfset utilLibrary = new usertable.server.utils.JsonFunctions()>
+
+    <cffunction name="getAllUsers" access="public" returntype="Array">
+        <cfquery name="users" datasource="usertable" result="users">
             SELECT * FROM users
         </cfquery>
-        <cfreturn users>
+        <cfreturn utilLibrary.queryToArray(users) >
     </cffunction>
 
     <cffunction name="getUserById" access="public" returntype="query">

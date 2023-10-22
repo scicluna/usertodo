@@ -6,12 +6,12 @@ type Role = {
 };
 
 type User = {
-    user_id: number;
-    first_name: string;
-    last_name: string;
-    email: string;
-    role: number;  // This is a numeric representation (ID) of the role associated with the user
-    todolists: TodoList[];
+    USER_ID: number;
+    FIRST_NAME: string;
+    LAST_NAME: string;
+    EMAIL: string;
+    ROLE: number;  // This is a numeric representation (ID) of the role associated with the user
+    TODOLISTS: TodoList[];
     getFullName: () => string;  // This function returns the full name of the user
 };
 
