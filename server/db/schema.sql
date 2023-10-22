@@ -27,7 +27,7 @@ CREATE TABLE todos (
     todo_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    due_date DATE,
+    due_date DATETIME,
     completed BOOLEAN DEFAULT FALSE,
     list_id INT,
     FOREIGN KEY (list_id) REFERENCES todolists(list_id)

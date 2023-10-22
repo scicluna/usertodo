@@ -63,17 +63,18 @@
         <cfargument name="list_id" type="numeric" required="true">
         <cfargument name="title" type="string" required="true">
         <cfargument name="description" type="string" required="true">
-        <cfargument name="due_date" type="date" required="true">
         <cfargument name="completed" type="boolean"  default="false">
         <cfquery name="result" datasource="usertable">
-            INSERT INTO todos (list_id, title, description, due_date, completed) VALUES (
-                <cfqueryparam value="#arguments.list_id#" cfsqltype="cf_sql_integer">,
-                <cfqueryparam value="#arguments.title#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#arguments.description#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#arguments.due_date#" cfsqltype="cf_sql_date">,
-                <cfqueryparam value="#arguments.completed#" cfsqltype="cf_sql_bit">
-            )
+        INSERT INTO todos (list_id, title, description, due_date, completed) 
+        VALUES (
+            <cfqueryparam value="#arguments.list_id#" cfsqltype="cf_sql_integer">,
+            <cfqueryparam value="#arguments.title#" cfsqltype="cf_sql_varchar">,
+            <cfqueryparam value="#arguments.description#" cfsqltype="cf_sql_varchar">,
+            NOW(),
+            <cfqueryparam value="#arguments.completed#" cfsqltype="cf_sql_bit">
+        )
         </cfquery>
+
         <cfreturn true>
     </cffunction>
 
@@ -87,7 +88,7 @@
             UPDATE todos SET 
                 title = <cfqueryparam value="#arguments.title#" cfsqltype="cf_sql_varchar">,
                 description = <cfqueryparam value="#arguments.description#" cfsqltype="cf_sql_varchar">,
-                due_date = <cfqueryparam value="#arguments.due_date#" cfsqltype="cf_sql_date">,
+                NOW(),
                 completed = <cfqueryparam value="#arguments.completed#" cfsqltype="cf_sql_bit">
             WHERE todo_id = <cfqueryparam value="#arguments.todo_id#" cfsqltype="cf_sql_integer">
         </cfquery>
