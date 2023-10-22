@@ -3,9 +3,9 @@
 import { createRole } from "@/utils/roles/createRole"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Button } from "../../ui/button"
-import { Input } from "../../ui/input"
-import { Label } from "../../ui/label"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
 
 export default function CreateRoleForm() {
     const router = useRouter()

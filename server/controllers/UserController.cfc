@@ -22,6 +22,16 @@
         </cfif>
     </cffunction>
 
+    <cffunction name="getUsersByRole" access="public"  returntype="Array" >
+        <cfargument name="role_id" type="numeric" required="true">
+
+        <cfquery name="users" datasource="usertable">
+            SELECT * FROM users WHERE role_id = <cfqueryparam value="#arguments.role_id#" cfsqltype="cf_sql_integer">
+        </cfquery>
+
+        <cfreturn utilLibrary.queryToArray(users) >
+    </cffunction>
+
     <cffunction name="createUser" access="public" returntype="boolean">
         <cfargument name="first_name" type="string" required="true">
         <cfargument name="last_name" type="string" required="true">

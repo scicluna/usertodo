@@ -7,12 +7,10 @@ export default async function Users() {
     const users = await getUsers();
     const roles = await getRoles();
 
-    console.log(users.data.DATA)
-
     return (
         <main className="h-[100dvh]">
             <CreateUserForm roles={roles.data.DATA} />
-            <section className="flex flex-col gap-2 justify-center items-center  text-3xl font-bold">
+            <section className="flex flex-col gap-2 justify-center items-center text-3xl font-bold p-8">
                 {(!users.data.DATA || users.data.DATA.length == 0)
                     ?
                     <p>Could not fetch users</p>

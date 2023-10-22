@@ -1,3 +1,4 @@
+"use client"
 import {
     Popover,
     PopoverContent,
@@ -5,7 +6,7 @@ import {
 } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Label } from "@radix-ui/react-label"
+import { Label } from "@/components/ui/label"
 import { editUser } from "@/utils/users/editUser"
 
 
@@ -33,7 +34,7 @@ export default function EditRolePopover({ user, firstName, lastName, roleId, ema
     return (
         <Popover>
             <PopoverTrigger className="text-blue-400 hover:text-blue-300 transition-all flex items-center">
-                <Button>Edit</Button>
+                Edit
             </PopoverTrigger>
             <PopoverContent className="flex flex-col gap-4">
                 <Label className="text-2xl" htmlFor="first_name">First Name</Label>

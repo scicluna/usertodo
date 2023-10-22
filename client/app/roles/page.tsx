@@ -8,7 +8,7 @@ export default async function Roles() {
     return (
         <main className="h-[100dvh]">
             <CreateRoleForm />
-            <section className="flex flex-col gap-2 justify-center items-center  text-3xl font-bold">
+            <section className="flex flex-col gap-2 justify-center items-center  text-3xl font-bold p-8">
                 {(!roles.data.DATA || roles.data.DATA.length == 0)
                     ?
                     <p>Could not fetch roles</p>
